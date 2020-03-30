@@ -123,4 +123,3 @@ const artistaConMasCopias = artistas => {
     return copiaArtistas.reduce(aMasCopiasVendidas);
 }
 
-const artistaConMasCopiasVendidas = artistaConMasCopias(artistas);//// HAGO ESTAS VARIABLES PARA TESTEAR
