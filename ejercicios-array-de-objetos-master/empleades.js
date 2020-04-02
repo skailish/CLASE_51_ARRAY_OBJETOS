@@ -86,6 +86,7 @@ const errorEnProduccion = empleades => {
     return empleades.map(cambiarATrue);
 };
 
+
 // subirDeCategoria, que tome como parámetro un objeto empleade.Si diche empleade no tiene un seniority "Senior", cambiar el valor de su propiedad seniority con el siguiente que le corresponde en orden("Trainee" -> "Junior" -> "Semisenior" -> "Senior"), y le incremente en 10000 el sueldo
 
 /// como hacerlo con reduce???
@@ -104,16 +105,19 @@ const subirDeCategoria = empleade => {
     return empleade;
 };
 
+
+
 // agregarTecnologias, que agregue a todos los objetos empleades la propiedad tecnologías, que es un array conteniendo los valores "GIT" y "Node.js"
 
 const agregarTecnologias = empleades => {
     const agregoTecnologias = empleade => {
-        empleade.tecnologías = ["GIT", "Node.js"];
-        return empleade;
+        return ({ ...empleade, tecnologias: ['Git', 'Node.js'] })
+
     };
 
     return empleades.map(agregoTecnologias);
 };
+
 
 // empleadeSabeLenguaje, que tome por parámetro un objeto empleade(elemento del array empleades) y un lenguaje y devuelva true si dicho empleade sabe dicho lenguaje
 
@@ -137,10 +141,13 @@ const empleadesQueSabenLenguajes = (lenguajes, empleades) => {
         return lenguajes.every(lenguaje => empleade.lenguajes.includes(lenguaje));
     };
 
+
     const sabeLenguajes = empleade => empleadeSabeLenguajes(empleade, lenguajes);
 
     return empleades.filter(sabeLenguajes);
 };
+
+
 
 // empleadesQueSabenAlgunosLenguajes, que tome por parámetro un array de lenguajes y devuelva un array con aquelles empleades que sepan al menos uno de esos lenguajes
 
@@ -160,9 +167,12 @@ const empleadesConMejorSueldo = empleades => {
         return b.sueldo - a.sueldo;
     };
 
-    empleadesOrdenados.sort(sueldoMayorAMenor);
-    return empleadesOrdenados.slice(0, 10);
+    return empleadesOrdenados.sort(sueldoMayorAMenor).slice(0, 10);
+
 };
+
+console.log(empleadesConMejorSueldo(empleades))
+
 
 // obtenerTitulosCompletos, que devuelva un array donde cada elemento es un string con la forma "nombre, puesto seniority, area", p.ej.: "Nadia Conrad, Senior Backend Developer, Desarrollo", habiendo un elemento por cada empleade(usar map)
 

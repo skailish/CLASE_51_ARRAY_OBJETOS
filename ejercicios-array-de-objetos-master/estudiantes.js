@@ -40,7 +40,7 @@ const obtenerPromedioDeEstudiante = estudiante => {
     }
 
     return estudiante.materias.reduce(sumaMaterias, 0)
-   
+
 }
 
 
@@ -74,24 +74,24 @@ const casaConMejoresEstudiantes = estudiantes => {
         objParcial[estudiante.casa] = objParcial[estudiante.casa] + 1 || 1;
         return objParcial
     }
-    
-    const conMayorCantidad = (masCantidad, casa, estudiantes) =>{
+
+    const conMayorCantidad = (masCantidad, casa, estudiantes) => {
         return mejoresEstudiantesPorCasa(masCantidad, estudiantes) > mejoresEstudiantesPorCasa(casa, estudiantes) ? masCantidad : casa
-        
+
     }
-    
+
     const estudiantesMejoresPromedio = estudiantesConPromedioMayorA(6, estudiantes);
     const mejorPromedioPorCasa = estudiantesMejoresPromedio.reduce(aMejoresPormedioPorCasa, {})
     const nombresCasas = Object.keys(mejorPromedioPorCasa);
-    
-    
+
+
     return nombresCasas.reduce((masCantidad, casa) => conMayorCantidad(masCantidad, casa, estudiantes))
-    
-
-}        
 
 
-            
+}
+
+
+
 // estudiantesPorMateriaAprobada, que tome por parámetro el nombre de una materia y un array de estudiantes y devuelva una array con les estudiantes que tienen en dicha materia un promedio superior a 6
 
 const estudiantesPorMateriaAprobada = (materiaElegida, estudiantes) => {
@@ -107,7 +107,12 @@ const estudiantesPorMateriaAprobada = (materiaElegida, estudiantes) => {
 // obtenerInfoResumida, que tome por parámetro un array de estudiantes y devuelva un array con objetos, habiendo un objeto por estudiante, donde cada objeto tiene las siguientes propiedades: nombre, casa, promedio, amigues(cantidad)
 
 const obtenerInfoResumida = estudiantes => {
-    const infoResumidaEstudiante = estudiante => ({ nombre: estudiante.nombreCompleto.nombre + " " + estudiante.nombreCompleto.apellido, casa: estudiante.casa, promedio: Math.round(obtenerPromedioDeEstudiante(estudiante)), amigues: estudiante.amigues.length })
+    const infoResumidaEstudiante = estudiante => ({
+        nombre: estudiante.nombreCompleto.nombre + " " + estudiante.nombreCompleto.apellido,
+        casa: estudiante.casa,
+        promedio: Math.round(obtenerPromedioDeEstudiante(estudiante)),
+        amigues: estudiante.amigues.length
+    })
     return estudiantes.map(infoResumidaEstudiante);
 }
 
@@ -128,21 +133,21 @@ const cantidadDeEstudiantesPorCasa = estudiantes => {
 /// EJERCICIO RESUELTO EN CLASE
 
 const cantidadDeEstudiantesPorMateriaAprobada = estudiantes => {
-    
-    const aEstudiantesPorMateria = (cuentaParcial, materia) => { 
+
+    const aEstudiantesPorMateria = (cuentaParcial, materia) => {
         cuentaParcial[materia] = cuentaParcial[materia] + 1 || 1
         return cuentaParcial
     }
-    
-    
+
+
     const aEstudiantesPorMateriasAprobadas = (cuentaParcial, estudiante) => {
         return estudiante.materias
-        .filter(materia => materia.promedio > 6)
-        .map(materia => materia.nombre)
-        .reduce(aEstudiantesPorMateria, cuentaParcial)
-        
+            .filter(materia => materia.promedio > 6)
+            .map(materia => materia.nombre)
+            .reduce(aEstudiantesPorMateria, cuentaParcial)
+
     };
-    
+
     return estudiantes.reduce(aEstudiantesPorMateriasAprobadas, {});
 
 }
@@ -152,25 +157,25 @@ const cantidadDeEstudiantesPorMateriaAprobada = estudiantes => {
 // promedioPorMateria, que tome por parámetro un array de estudiantes y devuelva un objeto con los nombres de las materias como propiedades y el promedio total de dicha materia entre todes les estudiantes(suma de todos los promedios divido la cantidad de estudiantes)
 
 const promedioPorMateria = estudiantes => {
-    
+
     const aPromedioPorMateria = (cuentaParcial, estudiante, index, array) => {
-        
+
         if (index === (array.length - 1)) {
             estudiante.materias.forEach(materia => {
                 cuentaParcial[materia.nombre] = ((cuentaParcial[materia.nombre] + materia.promedio) / array.length) || materia.promedio
             });
-            
+
         } else {
             estudiante.materias.forEach(materia => {
                 cuentaParcial[materia.nombre] = cuentaParcial[materia.nombre] + materia.promedio || materia.promedio
             });
         }
-        
+
         return cuentaParcial
     }
-    
-    return estudiantes.reduce(aPromedioPorMateria,{})
-    
+
+    return estudiantes.reduce(aPromedioPorMateria, {})
+
 }
 
 
@@ -178,23 +183,23 @@ const promedioPorMateria = estudiantes => {
 // familiarPreferido, que tome por parámetro un array de estudiantes y devuelva el familiar que más estudiantes tienen
 
 const familiarPreferido = estudiantes => {
-    
-    
+
+
     const aEstudiantePorFamiliar = (objParcial, estudiante) => {
         objParcial[estudiante.familiar] = objParcial[estudiante.familiar] + 1 || 1;
-        
+
         return objParcial
     }
-    
+
     const conMayorCantidad = (masCantidad, familiar, estudiantesPorFamiliar) => {
         return estudiantesPorFamiliar[familiar] > estudiantesPorFamiliar[masCantidad] ? familiar : masCantidad
     }
- 
-    
+
+
     const estudiantesPorFamiliar = estudiantes.reduce(aEstudiantePorFamiliar, {})
     const nombresFamiliares = Object.keys(estudiantesPorFamiliar);
-    
+
     return nombresFamiliares.reduce((masCantidad, familiar) => conMayorCantidad(masCantidad, familiar, estudiantesPorFamiliar))
-    
+
 }
 
