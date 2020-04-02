@@ -68,67 +68,30 @@ const mejoresEstudiantesPorCasa = (casa, estudiantes) => {
 
 
 // casaConMejoresEstudiantes, que tome por parámetro un array de estudiantes y devuelva el nombre de la casa que tiene más cantidad de estudiantes con promedio total mayor a 6(usar la función anterior)
-///// NO LOGRO RESOLVERLO //// MISMO PROBLEMA QUE ULTIMO EJERCICIO
 const casaConMejoresEstudiantes = estudiantes => {
 
     const aMejoresPormedioPorCasa = (objParcial, estudiante) => {
         objParcial[estudiante.casa] = objParcial[estudiante.casa] + 1 || 1;
         return objParcial
     }
-
+    
     const conMayorCantidad = (masCantidad, casa, estudiantes) =>{
-        mejoresEstudiantesPorCasa(masCantidad, estudiantes) > mejoresEstudiantesPorCasa(casa, estudiantes) ? casa : masCantidad
+        return mejoresEstudiantesPorCasa(masCantidad, estudiantes) > mejoresEstudiantesPorCasa(casa, estudiantes) ? masCantidad : casa
+        
     }
-
+    
     const estudiantesMejoresPromedio = estudiantesConPromedioMayorA(6, estudiantes);
     const mejorPromedioPorCasa = estudiantesMejoresPromedio.reduce(aMejoresPormedioPorCasa, {})
     const nombresCasas = Object.keys(mejorPromedioPorCasa);
     
     
-    return nombresCasas.reduce(conMayorCantidad)
+    return nombresCasas.reduce((masCantidad, casa) => conMayorCantidad(masCantidad, casa, estudiantes))
+    
 
-    //// NO SUPE USAR LA FUNCION ANTERIOR con esta solución (ver solución comentada debajo, donde sí uso)
-    //// SOLUCION SACADA DE UNA EXPLICACIÓN EN CLASE.AUN NO LOGRO PENSAR LA MEJOR FORMA DE DEJAR AMBAS CASAS QUE TIENEN MISMA CANTIDAD DE ESTUDIANTES CON PROMEDIOS MAYORES A 6.....
 }        
 
 
-//// *** SOLUCION ANTERIOR A VER LA EXPLICACION EN CLASE ****////
-
-// const casaConMejoresEstudiantes = estudiantes => {
-// const aListaCasas = (listaParcial, estudiante) => { /// para tener un array con los nombres de las casas
-//     if (listaParcial.includes(estudiante.casa)) {
-//         return listaParcial
-//     } else {
-//             listaParcial.push(estudiante.casa)
-//         return listaParcial
-//     }
-// }
-// const listaCasas = estudiantes.reduce(aListaCasas, []);
-// const estudiantesMejorPromedioPorCasa = [];
-
-//     listaCasas.forEach(casa => {
-//     estudiantesMejorPromedioPorCasa.push(mejoresEstudiantesPorCasa(casa, estudiantes));
-// }); /// ACA USO LA FUNCION ANTERIOR
-
-// const aCasas = (arrayParcial, casa) => {
-//     arrayParcial.push({
-//         casa: casa[0].casa,
-//         promedios: casa.length
-//     })
-//     return arrayParcial
-// }
-
-// const casaConMejoresPromedios = (casaTemporal, casa) => {
-//     casaTemporal = casaTemporal.promedios > casa.promedios ? { ...casaTemporal } : { ...casa };
-//     return casaTemporal
-// }
-
-// const casaMejorPromedio = estudiantesMejorPromedioPorCasa.reduce(aCasas, []).reduce(casaConMejoresPromedios);
-
-// return casaMejorPromedio.casa
-// }
-/////============================================================////
-
+            
 // estudiantesPorMateriaAprobada, que tome por parámetro el nombre de una materia y un array de estudiantes y devuelva una array con les estudiantes que tienen en dicha materia un promedio superior a 6
 
 const estudiantesPorMateriaAprobada = (materiaElegida, estudiantes) => {
@@ -161,26 +124,25 @@ const cantidadDeEstudiantesPorCasa = estudiantes => {
     return estudiantes.reduce(aEstudiantesPorCasa, {});
 }
 
-
 // cantidadDeEstudiantesPorMateriaAprobada, que tome por parámetro un array de estudiantes y devuelva un objeto con los nombres de las materias como propiedades y la cantidad de estudiantes que aprobaron dicha materia(promedio superior a 6)
 /// EJERCICIO RESUELTO EN CLASE
 
 const cantidadDeEstudiantesPorMateriaAprobada = estudiantes => {
-
+    
     const aEstudiantesPorMateria = (cuentaParcial, materia) => { 
         cuentaParcial[materia] = cuentaParcial[materia] + 1 || 1
         return cuentaParcial
     }
-
-
+    
+    
     const aEstudiantesPorMateriasAprobadas = (cuentaParcial, estudiante) => {
         return estudiante.materias
-            .filter(materia => materia.promedio > 6)
-            .map(materia => materia.nombre)
-            .reduce(aEstudiantesPorMateria, cuentaParcial)
-
+        .filter(materia => materia.promedio > 6)
+        .map(materia => materia.nombre)
+        .reduce(aEstudiantesPorMateria, cuentaParcial)
+        
     };
-
+    
     return estudiantes.reduce(aEstudiantesPorMateriasAprobadas, {});
 
 }
@@ -192,12 +154,12 @@ const cantidadDeEstudiantesPorMateriaAprobada = estudiantes => {
 const promedioPorMateria = estudiantes => {
     
     const aPromedioPorMateria = (cuentaParcial, estudiante, index, array) => {
-
+        
         if (index === (array.length - 1)) {
             estudiante.materias.forEach(materia => {
                 cuentaParcial[materia.nombre] = ((cuentaParcial[materia.nombre] + materia.promedio) / array.length) || materia.promedio
             });
-        
+            
         } else {
             estudiante.materias.forEach(materia => {
                 cuentaParcial[materia.nombre] = cuentaParcial[materia.nombre] + materia.promedio || materia.promedio
@@ -206,19 +168,17 @@ const promedioPorMateria = estudiantes => {
         
         return cuentaParcial
     }
-
+    
     return estudiantes.reduce(aPromedioPorMateria,{})
-              
+    
 }
 
 
 
 // familiarPreferido, que tome por parámetro un array de estudiantes y devuelva el familiar que más estudiantes tienen
-///// NO LOGRO RESOLVERLO //// MISMO PROBLEMA QUE EJERCICIO LINEA 70
-
 
 const familiarPreferido = estudiantes => {
-        
+    
     
     const aEstudiantePorFamiliar = (objParcial, estudiante) => {
         objParcial[estudiante.familiar] = objParcial[estudiante.familiar] + 1 || 1;
@@ -226,15 +186,15 @@ const familiarPreferido = estudiantes => {
         return objParcial
     }
     
-    const conMayorCantidad = (masCantidad, familiar, nombresFamiliares) => {
-        nombresFamiliares[familiar] > nombresFamiliares[masCantidad] ? familiar : masCantidad
+    const conMayorCantidad = (masCantidad, familiar, estudiantesPorFamiliar) => {
+        return estudiantesPorFamiliar[familiar] > estudiantesPorFamiliar[masCantidad] ? familiar : masCantidad
     }
-
-
+ 
+    
     const estudiantesPorFamiliar = estudiantes.reduce(aEstudiantePorFamiliar, {})
     const nombresFamiliares = Object.keys(estudiantesPorFamiliar);
-
-    return nombresFamiliares.reduce(((masCantidad, familiar) => conMayorCantidad(masCantidad, familiar, nombresFamiliares)))
+    
+    return nombresFamiliares.reduce((masCantidad, familiar) => conMayorCantidad(masCantidad, familiar, estudiantesPorFamiliar))
     
 }
 
